@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+
+# macOS system files
+.DS_Store
+
+# Local virtual environment
+research/.venv/
+
+# Data and model artifacts
+research/dataset/
+research/models/
+research/keypoints/
+
+# OmniGlue build/cache
+.omniglue/
+
+# Temporary or local scripts
+research/scripts/silly_script.py
+research/demo.py
