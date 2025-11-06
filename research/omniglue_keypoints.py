@@ -41,25 +41,25 @@ if __name__ == "__main__":
     train_ds, train_loader = make_loader(
         annotation_path=DATASET_ANNOTATIONS["train_annotation_path"],
         dataset_path=DATASET_FOLDER_PATHS["train_folder_path"],
-        mode="train", batch_size=64, num_workers=8, shuffle=False
+        mode="train", batch_size=8, num_workers=2, shuffle=False
     )
-    test_ds, test_loader = make_loader(
-        annotation_path=DATASET_ANNOTATIONS["test_annotation_path"],
-        dataset_path=DATASET_FOLDER_PATHS["test_folder_path"],
-        mode="test", batch_size=64, num_workers=8, shuffle=False
-    )
+    # test_ds, test_loader = make_loader(
+    #     annotation_path=DATASET_ANNOTATIONS["test_annotation_path"],
+    #     dataset_path=DATASET_FOLDER_PATHS["test_folder_path"],
+    #     mode="test", batch_size=64, num_workers=8, shuffle=False
+    # )
 
     torch.multiprocessing.set_start_method("spawn", force=True)
     print("Loading OmniGlue weights...")
     og = omniglue.OmniGlue(
         og_export=str(MODELS_PATH / "og_export"),
-        sp_export=str(MODELS_PATH / "sp_v6"),
+        sp_export=str(MODELS_PATH / "superpoint_v6_from_tf.pth"),
         dino_export=str(MODELS_PATH / "dinov2_vitb14_pretrain.pth"),
     )
 
     print("Extracting keypoints for train set...")
     save_keypoints(train_loader, OMNIGLUE_KEYPOINTS["train"], og)
-    print("Extracting keypoints for test set...")
-    save_keypoints(test_loader, OMNIGLUE_KEYPOINTS["test"], og)
+    # print("Extracting keypoints for test set...")
+    # save_keypoints(test_loader, OMNIGLUE_KEYPOINTS["test"], og)
     print("✅ All keypoints detected and saved successfully.")
     

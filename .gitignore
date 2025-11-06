@@ -9,8 +9,10 @@ research/.venv/
 
 # Data and model artifacts
 research/dataset/
+research/archives/
 research/models/
 research/keypoints/
+research/.omniglue_old/
 
 # OmniGlue build/cache
 .omniglue/

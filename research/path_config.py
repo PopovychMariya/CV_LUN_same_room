@@ -24,3 +24,6 @@ OMNIGLUE_KEYPOINTS = {
 
 # Supporting pretrained models weights and links to them
 MODELS_PATH = ROOT / "models" 
+
+# Archives
+ARCHIVES_PATH = ROOT/ "archives"

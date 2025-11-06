@@ -2,6 +2,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json, time, os
 from urllib.request import Request, urlopen
+from tqdm.auto import tqdm
 
 from path_config import DATASET_FOLDER_PATHS, DATASET_ANNOTATIONS
 
@@ -28,13 +29,16 @@ def _download(url: str, dest: Path):
             with urlopen(req, timeout=60) as r, open(tmp, "wb") as f:
                 while True:
                     chunk = r.read(CHUNK)
-                    if not chunk: break
+                    if not chunk:
+                        break
                     f.write(chunk)
             os.replace(tmp, dest)
             return
         except Exception:
-            try: tmp.exists() and tmp.unlink()
-            except Exception: pass
+            try:
+                tmp.exists() and tmp.unlink()
+            except Exception:
+                pass
             time.sleep(backoff)
             backoff = min(backoff * 2, 32)
 
@@ -46,8 +50,10 @@ def download_dataset(ann_path: Path, out_root: Path):
             folder = out_root / tid
             jobs.append(ex.submit(_download, url1, folder / "image1.jpg"))
             jobs.append(ex.submit(_download, url2, folder / "image2.jpg"))
-        for fut in as_completed(jobs):
-            fut.result()
+        with tqdm(total=len(jobs), desc="Downloading images", dynamic_ncols=True, leave=False) as pbar:
+            for fut in as_completed(jobs):
+                fut.result()
+                pbar.update(1)
 
 
 if __name__ == "__main__":

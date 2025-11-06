@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
     G = 32  # grid size
 
-    for split_name in ["train", "test"]:
+    for split_name in ["train"]:
         base_dir = OMNIGLUE_KEYPOINTS[split_name]
         npz_files = list(base_dir.rglob("matches.npz"))
 
