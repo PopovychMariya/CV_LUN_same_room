@@ -1,18 +1,18 @@
 from io import BytesIO
-
 import requests
 from PIL import Image
 from telegram import Update
 from telegram.ext import Application, MessageHandler, ContextTypes, filters
 
 from bot_token import TOKEN  # must define: TOKEN = "123:ABC"
-from model import inference  # must be: def inference(img1_pil, img2_pil) -> int
+from model import inference, warmup  # must be: def inference(img1_pil, img2_pil) -> int
 
 INCORRECT = "Incorrect input."
 IMPOSSIBLE = "Impossible to load images."
 DIFF = "These are photos of different rooms."
 SAME = "These are photos of the same room."
 ERR = "There was an error in the decision process."
+WAIT = "Operation in process."
 
 def _load_image(url: str):
     try:
@@ -51,6 +51,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await msg.reply_text(IMPOSSIBLE)
         return
 
+    await msg.reply_text(WAIT)
     try:
         res = inference(img1, img2)
     except Exception:
@@ -65,6 +66,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await msg.reply_text(ERR)
 
 def main():
+    warmup() 
     app = Application.builder().token(TOKEN).build()
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     app.run_polling(allowed_updates=Update.ALL_TYPES)

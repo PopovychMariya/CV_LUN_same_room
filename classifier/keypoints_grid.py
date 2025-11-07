@@ -100,27 +100,3 @@ def keypoints_to_grid(kp1, kp2, conf, H1, W1, H2, W2, G=32, max_kp_cap=1024):
 	np.divide(grid[7], float(max_kp_cap), out=grid[7], where=mc2)
 
 	return grid
-
-
-if __name__ == "__main__":
-    from tqdm import tqdm
-    from path_config import DETECTED_KEYPOINTS
-
-    G = 32  # grid size
-
-    for split_name in ["train"]:
-        base_dir = DETECTED_KEYPOINTS[split_name]
-        npz_files = list(base_dir.rglob("lightglue_matches.npz"))
-
-        print(f"Processing {len(npz_files)} files for split '{split_name}'...")
-
-        for npz_path in tqdm(npz_files, desc=f"{split_name} split"):
-            data = np.load(npz_path)
-            kp1, kp2, conf = data["kp1"], data["kp2"], data["conf"]
-            H1, W1, H2, W2 = map(int, [data["H1"], data["W1"], data["H2"], data["W2"]])
-
-            grid = keypoints_to_grid(kp1, kp2, conf, H1, W1, H2, W2, G=G)
-            out_fp = npz_path.parent / f"grid_G{G}.npy"
-            np.save(out_fp, grid.astype(np.float16))
-
-    print("✅ All grids generated and saved successfully.")

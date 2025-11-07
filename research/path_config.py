@@ -22,5 +22,23 @@ DETECTED_KEYPOINTS = {
     "test": ROOT / "keypoints" / "test"
 }
 
+# Saving models weights
+MODELS_PATH = ROOT / "models" 
+
 # Archives
 ARCHIVES_PATH = ROOT/ "archives"
+
+if __name__ == "__main__":
+	# Collect all directories to ensure they exist
+	to_make = [
+		DATASET_FOLDER_PATHS["train_folder_path"],
+		DATASET_FOLDER_PATHS["test_folder_path"],
+		DETECTED_KEYPOINTS["train"],
+		DETECTED_KEYPOINTS["test"],
+		MODELS_PATH,
+		ARCHIVES_PATH,
+	]
+
+	for p in to_make:
+		p.mkdir(parents=True, exist_ok=True)
+		print(f"[OK] ensured: {p}")
