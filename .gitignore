@@ -6,17 +6,18 @@ __pycache__/
 
 # Local virtual environment
 research/.venv/
+Classifier/.venv/
 
 # Data and model artifacts
 research/dataset/
 research/archives/
-research/models/
 research/keypoints/
-research/.omniglue_old/
+classifier/models
 
-# OmniGlue build/cache
-.omniglue/
 
 # Temporary or local scripts
 research/scripts/silly_script.py
-research/demo.py
+research/demo.ipynb
+
+# Bot token
+classifier/bot_token.py

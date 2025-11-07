@@ -17,13 +17,10 @@ DATASET_ANNOTATIONS = {
 TRAIN_LABELS = ROOT / "dataset" / "train_labels.csv"
 
 # Detected keypoints
-OMNIGLUE_KEYPOINTS = {
+DETECTED_KEYPOINTS = {
     "train": ROOT / "keypoints" / "train",
     "test": ROOT / "keypoints" / "test"
 }
-
-# Supporting pretrained models weights and links to them
-MODELS_PATH = ROOT / "models" 
 
 # Archives
 ARCHIVES_PATH = ROOT/ "archives"
