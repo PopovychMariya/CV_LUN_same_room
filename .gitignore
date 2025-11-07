@@ -13,7 +13,6 @@ research/dataset/
 research/archives/
 research/keypoints/
 research/models/
-classifier/models/same_room_binary.ts
 
 # Bot token
 classifier/bot_token.py
